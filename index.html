@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOKO IKYY SHOP - Payment Gateway</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #d32f2f;
+            --primary-dark: #b71c1c;
+            --primary-light: #ef5350;
+            --accent: #ff5252;
+            --text: #333333;
+            --text-light: #777777;
+            --background: #f5f5f5;
+            --card-bg: #ffffff;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f5f5 0%, #f0f0f0 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--primary);
+            border-radius: 15px;
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .payment-section {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--primary);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .payment-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .payment-method {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .payment-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--primary);
+        }
+
+        .payment-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .payment-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .payment-name {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .payment-detail {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 15px;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .qris-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .qris-image {
+            width: 280px;
+            height: 350px;
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .qris-placeholder {
+            width: 100%;
+            height: 200px;
+            background: 
+                linear-gradient(45deg, #f0f0f0 25%, transparent 25%), 
+                linear-gradient(-45deg, #f0f0f0 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #f0f0f0 75%), 
+                linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #999;
+            font-size: 0.8rem;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .qris-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #ccc;
+        }
+
+        .qris-info {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            width: 100%;
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .warning-note {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-note i {
+            color: #ff9800;
+            font-size: 1.5rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            border-top: 1px solid #e0e0e0;
+            width: 100%;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateX(150%);
+            transition: transform 0.4s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .payment-method {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .payment-card {
+                max-width: 100%;
+            }
+            
+            .qris-image {
+                width: 250px;
+                height: 320px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">TOKO IKYY SHOP</div>
+            <div class="tagline">Pembayaran Cepat & Aman</div>
+        </header>
+
+        <div class="warning-note">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong>WAJIB Screenshot Bukti Transfer!</strong> Simpan bukti transfer sebagai tanda pembayaran yang sah.
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <h2 class="section-title">
+                <i class="fas fa-wallet"></i> Pembayaran via DANA
+            </h2>
+            
+            <div class="payment-method">
+                <div class="payment-card">
+                    <div class="payment-icon"><i class="fab fa-cc-dana"></i></div>
+                    <div class="payment-name">DANA</div>
+                    <div class="payment-detail">088217571777</div>
+                    <div class="payment-detail" style="font-size: 0.9rem; margin-top: -10px;">A/N: DEWI HASANAH</div>
+                    <button class="copy-btn" onclick="copyToClipboard('088217571777', 'Nomor DANA')">
+                        <i class="fas fa-copy"></i> Salin Nomor
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <h2 class="section-title">
+                <i class="fas fa-qrcode"></i> Pembayaran via QRIS
+            </h2>
+            
+            <div class="qris-container">
+                <div class="qris-image">
+                    <div class="qris-placeholder">
+                        <i class="fas fa-qrcode"></i>
+                        <div>GANTI DENGAN FOTO QRIS ASLI</div>
+                        <div style="margin-top: 10px; font-size: 0.7rem;">[Upload gambar QRIS Anda di sini]</div>
+                    </div>
+                    <div class="qris-info">
+                        <strong>TOKO IKYY SHOP</strong><br>
+                        NMID: ID1025370078970<br>
+                        A01 - SATU QRIS UNTUK SEMUA
+                    </div>
+                </div>
+                <button class="copy-btn" onclick="copyToClipboard('ID1025370078970', 'NMID QRIS')">
+                    <i class="fas fa-copy"></i> Salin NMID
+                </button>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <strong>Cara mengganti QR Code:</strong><br>
+            1. Ganti bagian placeholder dengan gambar QRIS asli Anda<br>
+            2. Simpan gambar QRIS dengan nama "qris.jpg"<br>
+            3. Upload ke folder yang sama dengan file HTML ini<br>
+            4. Ganti div class="qris-placeholder" dengan tag: &lt;img src="qris.jpg" style="width: 100%; height: 200px; object-fit: contain;"&gt;
+        </div>
+
+        <div class="warning-note">
+            <i class="fas fa-camera"></i>
+            <div>
+                <strong>Jangan lupa screenshot bukti transfer!</strong> Kirim bukti ke admin setelah melakukan pembayaran.
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2023 TOKO IKYY SHOP - Pembayaran Nasional</p>
+        <p>Cek aplikasi penyelenggara di: www.aspi-qris.id</p>
+    </footer>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i>
+        <span>Teks berhasil disalin!</span>
+    </div>
+
+    <script>
+        function copyToClipboard(text, type) {
+            navigator.clipboard.writeText(text).then(() => {
+                showNotification(`${type} berhasil disalin!`);
+            }).catch(err => {
+                console.error('Gagal menyalin: ', err);
+                showNotification('Gagal menyalin teks');
+            });
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.querySelector('span').textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
